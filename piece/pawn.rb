@@ -2,7 +2,12 @@ require_relative "piece"
 class Pawn < Piece
 
     def symbol
-        "♟︎"
+        case @color
+        when :white
+            "♟︎".white
+        else 
+            "♟︎".light_black
+        end
     end
 
     def moves

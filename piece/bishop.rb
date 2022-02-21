@@ -4,7 +4,12 @@ class Bishop < Piece
     include Slideable
 
     def symbol
-        "♝"
+        case @color
+        when :white
+            "♝".white
+        else 
+            "♝".light_black
+        end
     end
 
     private

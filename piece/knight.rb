@@ -4,7 +4,12 @@ class Knight < Piece
     include Stepable
 
     def symbol
-        "♞"
+        case @color
+        when :white
+            "♞".white
+        else 
+            "♞".light_black
+        end
     end
 
     protected
