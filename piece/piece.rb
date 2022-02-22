@@ -1,5 +1,5 @@
 class Piece
-    attr_reader :color, :symbol
+    attr_reader :color, :symbol, :pos
     def initialize(board, pos, color)
         @board, @pos, @color = board, pos, color
     end
@@ -24,11 +24,9 @@ class Piece
         moves.select { |move| !move_into_check?(move)}
     end
 
-    private
-
     def move_into_check?(end_pos)
         piece = @board[end_pos]
-        return true if piece.symbol == :king && piece.color != self.color 
+        piece.moves { |move| return true if @board[move].is_a?(King) && @board[move].color != piece.color }
         false
     end
 end

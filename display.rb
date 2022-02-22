@@ -9,7 +9,7 @@ class Display
 
     def render
         grid = symbol_grid
-        x, y =  @cursor.cursor_pos
+        y, x =  @cursor.cursor_pos
         grid[y][x] = grid[y][x].colorize( :background => :light_blue )
         grid.each { |row| puts row.join(" ")}
         true

@@ -38,7 +38,7 @@ class Pawn < Piece
         sides = [@pos[0] + 1, @pos[1] + 1], [@pos[0] - 1, @pos[1] + 1]
         moves = []
         sides.each do |side|
-            next if @board[side].color == self.color
+            next if !@board.valid_pos?(side) || @board[side].color == self.color
             if @board.valid_pos?(side) && !@board[side].is_a?(NullPiece)
                 moves << side
             end

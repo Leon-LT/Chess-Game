@@ -13,8 +13,8 @@ module Slideable
     def moves
         moves_arr = []
         move_dirs.each do |pos|
-            x, y = pos
-            moves_arr += grow_unblocked_moves_in(x, y)
+            y, x = pos
+            moves_arr += grow_unblocked_moves_in(y, x)
         end
         moves_arr
     end
@@ -25,17 +25,23 @@ module Slideable
         raise NotImplemented
     end
 
-    def grow_unblocked_moves_in(x, y)
+    def grow_unblocked_moves_in(y, x)
+        #da rifare
         coor_x, coor_y = @pos
         coor_x += x
         coor_y += y
         moves = []
-        until !@board.valid_pos?([coor_x, coor_y])
-            piece = @board[[coor_x,coor_y]]
-            break if piece.color != self.color && !piece.is_a?(NullPiece)
-            moves << [coor_x, coor_y]
-            coor_x, coor_y = coor_x + x, coor_y + y
-        end 
+        while @board.valid_pos?([coor_y, coor_x])
+            pos = [coor_y, coor_x]
+            if @board[pos].empty?
+                moves << pos
+            else
+                moves << pos if @board[pos].color != color
+                break
+            end
+            coor_y += y
+            coor_x += x
+        end
         moves
     end
 end
