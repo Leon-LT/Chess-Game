@@ -17,16 +17,16 @@ class Piece
     end
 
     def pos=(val)
-        @board[@pos] = val
+        @pos = val
     end
 
     def valid_moves
-        moves.select { |move| !move_into_check?(move)}
+        valid_moves = moves.select { |move| !move_into_check?(move) }
+        return valid_moves
     end
 
     def move_into_check?(end_pos)
-        piece = @board[end_pos]
-        piece.moves { |move| return true if @board[move].is_a?(King) && @board[move].color != piece.color }
-        false
+        board_copy = @board.move_piece(self.color, self.pos, end_pos)
+        board_copy.in_check?(self.color)
     end
 end

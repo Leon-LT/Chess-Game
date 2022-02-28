@@ -2,6 +2,7 @@ require "colorize"
 require_relative "cursor"
 
 class Display
+    attr_reader :cursor
     def initialize(board)
         @board = board
         @cursor = Cursor.new([0,0], board)
@@ -13,14 +14,6 @@ class Display
         grid[y][x] = grid[y][x].colorize( :background => :light_blue )
         grid.each { |row| puts row.join(" ")}
         true
-    end
-
-    def test
-        bo = true
-        while bo
-            @cursor.get_input
-            render
-        end
     end
 
     def symbol_grid

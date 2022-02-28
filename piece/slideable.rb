@@ -26,8 +26,7 @@ module Slideable
     end
 
     def grow_unblocked_moves_in(y, x)
-        #da rifare
-        coor_x, coor_y = @pos
+        coor_y, coor_x = @pos
         coor_x += x
         coor_y += y
         moves = []

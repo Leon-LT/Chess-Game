@@ -17,30 +17,30 @@ class Pawn < Piece
     private
 
     def at_start_row?
-        coor_y = @pos[1]
+        coor_y = @pos[0]
         return 2 if coor_y == 1 || coor_y == 6
         1
     end
 
     def forward_dir
-        @color == :white ? 1 : -1
+        @color == :white ? -1 : 1
     end
 
     def forward_steps
         steps = []
         at_start_row?.times do |i|
-            steps << [@pos[0], @pos[1] + forward_dir]
+            steps << [@pos[0] + i + 1, @pos[1]]
         end
         steps
     end
 
     def side_attacks
-        sides = [@pos[0] + 1, @pos[1] + 1], [@pos[0] - 1, @pos[1] + 1]
+        sides = [[@pos[0] + 1, @pos[1] + 1], [@pos[0] + 1, @pos[1] - 1]]
         moves = []
         sides.each do |side|
             next if !@board.valid_pos?(side) || @board[side].color == self.color
-            if @board.valid_pos?(side) && !@board[side].is_a?(NullPiece)
-                moves << side
+            if !@board[side].empty? && !@board[side].is_a?(NullPiece)
+                moves += side
             end
         end
         moves
