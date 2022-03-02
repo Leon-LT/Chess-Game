@@ -87,7 +87,6 @@ class Board
      def move_piece(color, start_pos, end_pos)
         board_copy = self.dup
         raise ArgumentError.new("There is no piece in the start position") if !self[start_pos].is_a? Piece
-        raise ArgumentError.new("You can't kill a piece with the same color") if self[start_pos].color == self[end_pos].color
         
         board_copy[start_pos], board_copy[end_pos] = board_copy[end_pos], board_copy[start_pos]
         return board_copy
@@ -96,17 +95,17 @@ class Board
     def move_piece!(color, start_pos, end_pos)
         raise ArgumentError.new("This isn't a valid move") if !self[start_pos].valid_moves.include?(end_pos)
         raise ArgumentError.new("There is no piece in the start position") if !self[start_pos].is_a? Piece
-        raise ArgumentError.new("You can't kill a piece with the same color") if self[start_pos].color == self[end_pos].color
-        
-        self[start_pos], self[end_pos] = self[end_pos], self[start_pos]
-        self[end_pos].pos, self[start_pos].pos = end_pos, start_pos
+        raise ArgumentError.new("You can´t eat a piece with the same color") if color == self[end_pos].color 
+        raise ArgumentError.new("You can only move #{color.to_s} pieces") if color != self[start_pos].color
+
+        self[start_pos], self[end_pos] = @null_piece, self[start_pos]
+        self[end_pos].pos = end_pos
     end
 
     def find_king(color)
         piece_pos = nil
         @rows.each do |row|
             row.each do |piece|
-                p piece if piece.is_a?(King) && piece.color == color
                 piece_pos = piece.pos if piece.is_a?(King) && piece.color == color
             end
         end
